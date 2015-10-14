@@ -14,12 +14,11 @@
   Local & Global communication will be used. 
 
   Communication will occour within nearest neighbours of given array cell. Parallel computing 
-  will occour in all contected areas (between every two exists a path of cells adjecnt sides). 
+  will occour in all contected areas (between every two exists a path of cells with adjecnt sides). 
 
   Local communication will be used between neighbours in order to count the minimum values and propagate them.
 
   Global communication will be used in order to notify when an area is computed.
-
 
   Local communiaction will occour between cells in areas as marked below.
 
