@@ -4,6 +4,7 @@
 
   ![Alt text](http://s8.postimg.org/tfb81mgep/array.png)
 
+
 ###1) Partitioning
   Domain Decomposition will be used in order to solve the problem. Elementary processing unit would be one element of given array (fine grained).
 
@@ -20,15 +21,21 @@
   Global communication will be used in order to notify when an area is computed.
 
 
-  Local communiaction would occour between cells in areas as marked below.
+  Local communiaction will occour between cells in areas as marked below.
 
   ![Alt text](http://s23.postimg.org/b6tiuhhtj/array_Copy.png)
+
+  Global communication will occour between areas marked below and the root process. 
+
+  ![Alt text](http://s29.postimg.org/ptxvw7ow3/Global.png)
      
 ###3) Aglomeration
-  The area of cumpition is created by a set of connected areas. It seems like for this problem, the best would be dividing
+  The area of compution is created by a set of connected areas. It seems like for this problem, the best would be dividing
   the space in one two dimensions for those connected areas and allocate them to particular processes. 
   This will couse two dimensional local communication as well as one dimensional communication of communication between
   other processes (beetwen previously computed connected areas).
+
+  Usless space (zeros in array) will not be allocated.
 
 ###4) Mapping
   The most suitable mapping would be dividing the space of data for number of processes and then allocate following processes
