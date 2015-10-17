@@ -70,14 +70,13 @@ neigh = [0,0,0,0]
 neigh[NORTH], neigh[SOUTH] = comm_2d.Shift(0, 1)
 neigh[WEST], neigh[EAST] = comm_2d.Shift(1, 1)
 
-
 for x in range(0, LIMIT):
     if(x == 0):
         my_value = addresses_array[my_coords[0]][my_coords[1]]
-        changed = 0
+        changed = 0 
     if(not areas_array[my_coords[0]][my_coords[1]]):
-        changed = 0
         my_value = MAX        
+        changed = 1 
 
     # Sending data betweend neighbours
     #
@@ -110,17 +109,16 @@ for x in range(0, LIMIT):
         west_value,
         my_value])
 
-    if(my_value != my_new_value):
-        changed = 1
-    else:
+    comm.Barrier()
+    if(my_value != my_new_value and (areas_array[my_coords[0]][my_coords[1]] != 0)):
         changed = 0
+    else:
+        changed = 1
+
 
     my_value = my_new_value
-    comm.Barrier()
-    result = comm_2d.reduce(changed, MPI.SUM)
-    if(my_rank == 0):
-        print "HERE", result
-        result = 0
-
-    if(areas_array[my_coords[0]][my_coords[1]] and x==99):
-        print ("[%2d] %d") %(my_rank, my_value)
+    result = comm.allreduce(changed, MPI.SUM)
+    if(result == cw_size):
+        if(areas_array[my_coords[0]][my_coords[1]]):
+            print ("[%2d] %d") %(my_rank, my_value)
+        break
