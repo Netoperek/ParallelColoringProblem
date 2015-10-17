@@ -2,6 +2,8 @@
 
 ##Solving problem acording to PCAM method:
 
+  Problem will be solved using Python MPI.
+
   ![Alt text](http://s8.postimg.org/tfb81mgep/array.png)
 
 
