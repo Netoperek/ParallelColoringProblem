@@ -15,8 +15,6 @@ WEST = 3
 MAX = 10000000
 LIMIT = 100
 
-RECV_BUFFER = np.zeros(100000)
-
 # define MPI
 #
 comm = MPI.COMM_WORLD
@@ -43,6 +41,30 @@ def array_min(array):
 
     return min
 
+def iterative_solve(south_border, north_border, east_border, west_border):
+    changed = True
+    while(changed):
+        changed = False
+        for i in range(west_border, east_border):
+            for j in range(north_border, south_border):
+                north_value = MAX
+                south_value = MAX
+                east_value = MAX
+                west_value = MAX
+
+                if (north_border != 0 and areas_array[i-1][j] != 0):
+                    north_value = values_array[i-1][j]
+                if (south_border != len(values_array) and areas_array[i+1][j] != 0):
+                    south_value = values_array[i+1][j]
+                if (east_border != 0 and areas_array[i][j+1] != 0):
+                    east_value = values_array[i][j+1]
+                if (west_border != len(values_array) and areas_array[i][j-1] != 0):
+                    west_value = values_array[i][j-1]
+
+                new_min = array_min([north_value, south_value, east_value, west_value])
+                if (values_array[i][j] != new_min):
+                    values_array[i][j] = new_min
+                    changed = True
 # Execution
 #
 if(comm.Get_rank() == 0): 
@@ -114,7 +136,6 @@ for x in range(0, LIMIT):
         changed = 0
     else:
         changed = 1
-
 
     my_value = my_new_value
     result = comm.allreduce(changed, MPI.SUM)
