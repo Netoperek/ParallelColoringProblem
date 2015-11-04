@@ -2,6 +2,7 @@ import numpy as np
 import random
 import string
 import math
+import sys
 from mpi4py import MPI
 
 # define globals
@@ -11,7 +12,7 @@ SOUTH = 1
 EAST = 2
 WEST = 3
 MAX = 10000000
-SIZE = 1024
+SIZE = int(sys.argv[1])
 LIMIT = 100
 
 # define MPI
@@ -92,10 +93,10 @@ start_time = MPI.Wtime()
 if(comm.Get_rank() == 0): 
     areas_array = randomized_array(SIZE)
     values_array = [[int(MAX * random.random()) for i in range(SIZE)] for j in range(SIZE)]
-    #print "AREAS INITIAL ARRAY"
-    #pretty_print_2d_array(areas_array)
-    #print "VALUES INITIAL ARRAY"
-    #pretty_print_2d_array(values_array)
+    print "AREAS INITIAL ARRAY"
+    pretty_print_2d_array(areas_array)
+    print "VALUES INITIAL ARRAY"
+    pretty_print_2d_array(values_array)
     data = { 'addresses' : values_array,
              'areas' : areas_array }
 
@@ -151,4 +152,4 @@ if(my_rank == 0):
     iterative_solve(len(values_array)-1, 0, len(values_array)-1, 0, False)
     end_time = MPI.Wtime()  
     print 'SOLUTION FOUND IN TIME: ', end_time - start_time
-    #pretty_print_2d_array(values_array)
+    pretty_print_2d_array(values_array)

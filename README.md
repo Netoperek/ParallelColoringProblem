@@ -35,3 +35,8 @@
 ###4) Mapping
   The most suitable mapping would be dividing the space of data for number of processes and then allocate following processes
   to areas of data.
+
+##OUTCOMES
+
+
+  ![Alt text](http://s21.postimg.org/kyl9e3hfr/TPR.png)
